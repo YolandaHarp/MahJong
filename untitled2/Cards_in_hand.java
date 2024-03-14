@@ -1,3 +1,5 @@
+package model;
+
 import java.util.*;
 
 public class Cards_in_hand {
@@ -6,10 +8,12 @@ public class Cards_in_hand {
     private ArrayList<Integer> exposedKongCards = new ArrayList<Integer>();
     private ArrayList<Integer> concealedKongCards = new ArrayList<Integer>();
     private Map<Integer,ArrayList<Integer[]>> chowCards = new HashMap<>();
+    private Discard_Pile discards;
     Cards_in_hand(Stack_of_cards p){
         for(int i=0;i<=12;i++){
             drawCard(p);
         }
+        discards=new Discard_Pile();
     }
     void sortCards() {
         Collections.sort(cards);
@@ -22,16 +26,19 @@ public class Cards_in_hand {
         cards.add(p.pickFromBottom());
         concealedKongCards=findSameCards(4);
     }
-    void playCard(Discard_Pile q, int n){//这里的n是第几张牌
-        q.add(n);
+    void playCard(int n){//这里的n是第几张牌
+        discards.add(n);
         cards.remove(n);
         sortCards();
         pongCards =findSameCards(2);
         exposedKongCards =findSameCards(3);
         chowCards =findChowCards();
     }
-    ArrayList<Integer> show(){
+    ArrayList<Integer> showCards(){
         return new ArrayList<Integer>(cards);
+    }
+    ArrayList<Integer> showDiscards(){
+        return discards.show();
     }
     ArrayList<Integer> findSameCards(int n){
         Map<Integer, Integer> countMap = new HashMap<>();

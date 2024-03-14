@@ -1,3 +1,5 @@
+package model;
+
 // 按两次 Shift 打开“随处搜索”对话框并输入 `show whitespaces`，
 // 然后按 Enter 键。现在，您可以在代码中看到空格字符。
 public class Main {
@@ -8,11 +10,10 @@ public class Main {
         Cards_in_hand a=new Cards_in_hand(i);
         Discard_Pile d=new Discard_Pile();
         a.sortCards();
-        System.out.println(a.show().toString());
+        System.out.println(a.showCards().toString());
         a.drawCard(i);
-        System.out.println(a.show().toString());
-        a.playCard(d,8);
+        System.out.println(a.showCards().toString());
         System.out.println(a.ifChow(5));
-        System.out.println(a.show().toString());
+        System.out.println(a.showCards().toString());
     }
 }
