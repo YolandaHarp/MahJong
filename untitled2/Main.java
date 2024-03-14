@@ -4,14 +4,15 @@ public class Main {
     public static void main(String[] args) {
         // 当文本光标位于高亮显示的文本处时按 Alt+Enter，
         // 可查看 IntelliJ IDEA 对于如何修正该问题的建议。
-        //Stack_of_cards i=new Stack_of_cards();
-        //Cards_in_hand a=new Cards_in_hand(i);
-        //Discard_Pile d=new Discard_Pile();
-        //a.sortCards();
-        //System.out.println(a.show().toString());
-        //a.drawCard(i);
-        //System.out.println(a.show().toString());
-        //a.playCard(d,8);
-        //System.out.println(a.show().toString());
+        Stack_of_cards i=new Stack_of_cards();
+        Cards_in_hand a=new Cards_in_hand(i);
+        Discard_Pile d=new Discard_Pile();
+        a.sortCards();
+        System.out.println(a.show().toString());
+        a.drawCard(i);
+        System.out.println(a.show().toString());
+        a.playCard(d,8);
+        System.out.println(a.ifChow(5));
+        System.out.println(a.show().toString());
     }
 }

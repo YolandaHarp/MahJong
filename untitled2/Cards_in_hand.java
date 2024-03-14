@@ -50,7 +50,7 @@ public class Cards_in_hand {
     Map<Integer,ArrayList<Integer[]>> findChowCards(){
         Map<Integer,ArrayList<Integer[]>> result = new HashMap<>();
         for(int i=0;i<cards.size()-1;i++){
-            if(cards.get(i)>26){
+            if(cards.get(i)>26||cards.get(i+1)==cards.get(i)){
                 continue;
             }
             if(cards.get(i)+1==cards.get(i+1)&&cards.get(i)%9!=8){
@@ -66,7 +66,7 @@ public class Cards_in_hand {
                     result.get(cards.get(i)+2).add(new Integer[]{cards.get(i),cards.get(i)+1});
                 }
             }
-            if(cards.get(i)+2==cards.get(i+1)&&cards.get(i)%9<7){
+            if(cards.contains(cards.get(i)+2)&&cards.get(i)%9<7){
                 if(!result.containsKey(cards.get(i)+1)){
                     result.put(cards.get(i)+1,new ArrayList<>());
                 }
