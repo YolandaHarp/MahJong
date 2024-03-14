@@ -2,12 +2,11 @@ import java.util.*;
 
 public class Stack_of_cards {
     Random random = new Random();
-    private Deque<Integer> stack;
+    private Deque<Integer> stack= new ArrayDeque<>();
     private int pointJoker;
     private int joker;
     private int end=0;
-    Stack_of_cards(){
-        Deque<Integer> stack = new ArrayDeque<>();
+    public Stack_of_cards(){
         List<Integer> list = new ArrayList<>();
         for(int j =1 ;j <= 4; j++){
             for(int i = 0; i <= 33; i++){
@@ -15,9 +14,7 @@ public class Stack_of_cards {
                 list.add(place,i);
             }
         }
-        for (int i = 0; i < list.size(); i++) {
-            stack.addLast(list.get(i));
-        }
+        stack.addAll(list);
         pointJoker = random.nextInt(34);
         if (pointJoker == 8 || pointJoker == 17 || pointJoker == 26) {
             joker = pointJoker - 8;
@@ -30,6 +27,9 @@ public class Stack_of_cards {
         }
     }
     int pick(){
+        return stack.removeFirst();
+    }
+    int pickFromBottom(){
         return stack.pop();
     }
     int remainCardNum(){

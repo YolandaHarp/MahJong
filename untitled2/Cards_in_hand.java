@@ -14,18 +14,17 @@ public class Cards_in_hand {
     void drawCard(Stack_of_cards p){
         cards.add(p.pick());
     }
+    void drawCardFromBottom(Stack_of_cards p){
+        cards.add(p.pickFromBottom());
+    }
     void playCard(Discard_Pile q, int n){
         q.add(n);
         cards.remove(n);
         sortCards();
     }
-    int[] show(){
-        int[] copyCards=new int[cards.size()];
-        int n =0;
-        for (int i : cards) {
-            copyCards[n]=i;
-            n++;
-        }
+    ArrayList<Integer> show(){
+        ArrayList<Integer> copyCards=new ArrayList<Integer>();
+        copyCards.addAll(cards);
         return copyCards;
     }
 }
