@@ -9,7 +9,7 @@ public class Stack_of_cards {
     public Stack_of_cards(){
         List<Integer> list = new ArrayList<>();
         for(int j =1 ;j <= 4; j++){
-            for(int i = 0; i <= 33; i++){
+            for(int i = 0; i <= 34; i++){
                 int place = random.nextInt(list.size()+1);
                 list.add(place,i);
             }
@@ -25,6 +25,11 @@ public class Stack_of_cards {
         } else {
             joker = pointJoker + 1;
         }
+        stack.remove(pointJoker);
+        stack.remove(joker);
+        stack.remove(joker);
+        stack.remove(joker);
+        stack.remove(joker);
     }
     int pick(){
         return stack.removeFirst();
@@ -33,10 +38,13 @@ public class Stack_of_cards {
         return stack.pop();
     }
     int remainCardNum(){
-        return stack.size();
+        return stack.size()-end;
     }
     int getJoker(){
         return joker;
+    }
+    void setEnd(int i){
+        end=i;
     }
     int getPointJoker(){
         return pointJoker;

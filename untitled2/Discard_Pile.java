@@ -6,8 +6,6 @@ public class Discard_Pile {
         cards.add(card);
     }
     ArrayList<Integer> show(){
-        ArrayList<Integer> copyCards=new ArrayList<Integer>();
-        copyCards.addAll(cards);
-        return copyCards;
+        return new ArrayList<Integer>(cards);
     }
 }
