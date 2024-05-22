@@ -1,0 +1,100 @@
+@startuml
+skinparam dpi 800
+actor "4 players" as p
+participant mainGame as m
+participant Cards_in_hand as c
+participant Stack_of_cards as s
+p ->m :startGame()
+activate m
+loop Game run
+m -> s: new Stack_of_cards()
+activate s
+m->m: new Cards_in_hand[4]
+loop for each player
+m->c: new Cards_in_hand(stack)
+activate c
+end
+m->m: win=false
+loop A game
+loop for each player
+m->c :check status
+end
+
+alt if a player can win
+m-> m :turn to the player
+m->p: ask for choice
+p->m
+alt verify win
+m->m: win=true
+else
+m->m :back to the original next player
+end
+else if a player can pong/kong
+m-> m :turn to the player
+m->p: ask for choice
+p->m
+alt verify pong/kong
+m->c : do pong/kong
+alt if kong
+m->m :waitToDraw=true
+end
+else
+m->m :back to the original next player
+end
+else next player can chow
+m->p: ask for choice
+p->m
+alt verify chow
+m->c :do chow
+else
+m->m :waitToDraw=true
+end
+
+else
+m->m :waitToDraw=true
+end
+alt waitToDraw==true
+m->c: draw card
+m->c :check status for kong or win
+loop if it is able to kong/win
+alt win
+m->p: ask for choice
+p->m
+alt verify win
+m->m: win=true
+break
+end
+end
+else kong
+m->p: ask for choice
+p->m
+alt verify kong
+m->c : do kong
+m->c :draw card
+end
+m->c :check status for kong or win
+end
+end
+m->m:waitToDraw=false
+end
+alt win==true
+break
+end
+end
+m->p:choose the card to be played
+p->m
+m->c: play card
+loop for other players
+m->c :check the interaction with the card and change the status
+end
+m-> m :turn to next player
+end
+m->p: ask player if they want one more game
+alt if not
+break
+end
+end
+end
+
+
+@enduml

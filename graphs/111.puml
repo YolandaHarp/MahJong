@@ -1,0 +1,136 @@
+
+@startuml
+skinparam dpi 600
+package model{
+class Cards_in_hand {
+  -ArrayList<Integer> cards
+  -Stack_of_cards stack
+  -PutAwayCards putAwayCard
+  -Discard_Pile discards
+  -Actions action
+  -boolean[] status
+  +Cards_in_hand(Stack_of_cards p)
+  +void sortCards()
+  +void drawCard(Stack_of_cards p)
+  +int playCard(int n)
+  +void checkCards(int n)
+}
+class Stack_of_cards {
+  -Deque<Integer> stack
+  +Stack_of_cards()
+  +int pick()
+  +int pickFromBottom()
+}
+class PutAwayCards {
+  -ArrayList<ArrayList<Integer>> putAwayCard
+  +void add(ArrayList<Integer> n)
+  +ArrayList<ArrayList<Integer>> show()
+}
+class Discard_Pile {
+  -ArrayList<Integer> cards
+  +void add(int n)
+  +ArrayList<Integer> show()
+}
+}
+package methods{
+interface Find_Action {
+  +findCards(): void
+  +checkCard(n: int): void
+  +removeCard(n: int): void
+}
+
+class Check_Chow {
+  -chowCards: Map<Integer, ArrayList<Integer[]>>
+  -actionPairs: ArrayList<Integer[]>
+  -actionCard: Integer
+  -cards: Cards_in_hand
+  +Check_Chow(cards: Cards_in_hand): void
+}
+
+class Check_Win {
+  -winCards: ArrayList<Integer>
+  -used: boolean[]
+  -check: ArrayList<Integer>
+  -pairs: ArrayList<Integer>
+  -cards: Cards_in_hand
+  +Check_Win(cards: Cards_in_hand): void
+}
+class Check_Pong {
+  -ArrayList<Integer> availableCards
+  -Cards_in_hand cards
+  -Integer actionCard
+  +Check_Pong(cards: Cards_in_hand)
+}
+
+class Check_ExposedKong {
+  +Check_ExposedKong(cards: Cards_in_hand)
+}
+
+class Check_ConcealedKong {
+  +Check_ConcealedKong(cards: Cards_in_hand)
+}
+class Actions {
+  - Check_Chow chowCards
+  - Check_Pong pongCards
+  - Check_Win winCards
+  - Check_ConcealedKong cKongCards
+  - Check_ExposedKong eKongCards
+  - Find_Action[] actions
+  + Actions(Cards_in_hand c)
+  + void findCardsAction()
+  + void checkCardAction(int n)
+  + void checkCardAction_draw(int n)
+}
+}
+package gameEngine{
+}
+package gameListener{
+class mouseListener{
+}
+}
+package game{
+class mahjong{
+  -Cards_in_hand[] players
+  - Stack_of_cards stack
+  +  void mainGame()
+}
+}
+package screen{
+class gameScreen extends JPanel{
+  -mahjong ma
+  -ArrayList<Integer[]> places
+  -cardScreen
+}
+class mainScreen extends JPanel{
+}
+class settingScreen extends JPanel{
+}
+class cardScreen extends JPanel{
+  +void drawMJn(Graphics g, int x, int y, double a)
+}
+}
+Find_Action <|.. Check_Chow
+Find_Action <|.. Check_Pong
+Find_Action <|.. Check_Win
+Find_Action <|.. Check_ConcealedKong
+Find_Action <|.. Check_ExposedKong
+Check_ExposedKong --|> Check_Pong
+Check_ConcealedKong --|> Check_ExposedKong
+Actions -->Check_Chow
+Actions -->Check_Pong
+Actions -->Check_Win
+Actions -->Check_ConcealedKong
+Actions -->Check_ExposedKong
+Cards_in_hand --> PutAwayCards
+Cards_in_hand --> Discard_Pile
+Cards_in_hand <--> Actions
+Cards_in_hand ..> Stack_of_cards
+Cards_in_hand <--> mahjong
+mahjong -->Stack_of_cards
+mouseListener --> gameEngine
+gameEngine --> mahjong
+gameEngine --> screen
+gameScreen --> mahjong
+gameScreen --> cardScreen
+@enduml
+```

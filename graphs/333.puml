@@ -1,0 +1,19 @@
+@startuml
+skinparam dpi 1000
+left to right direction
+actor Player
+
+
+Player --> (Start Game)
+Player --> (First Turn)
+Player --> (Take Turn)
+(Take Turn)  --> (Normal Turn)
+(Take Turn)  --> (Concealed Kong from hand)
+(Take Turn)  --> (Concealed Kong after pong)
+(Take Turn)  --> (Win by one's own draw)
+Player --> (Interaction)
+(Interaction) --> (Chow)
+(Interaction) --> (Pong)
+(Interaction) --> (Exposed Kong)
+(Interaction) --> (Win by others' tile)
+@enduml
