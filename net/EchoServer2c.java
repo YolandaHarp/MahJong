@@ -4,84 +4,105 @@ import java.net.*;
 import java.io.*;
 import java.util.ArrayList;
 
-public class EchoServer2c extends Thread {
+public class EchoServer2c {
     protected static boolean serverContinue = true;
-    protected Socket clientSocket;
     protected static ArrayList<Socket> clientSockets = new ArrayList<>();
 
-    public static void main(String[] args) throws IOException {
+    public static void startServer(int port) throws IOException {
+        System.out.println(GetIP.ip());
         ServerSocket serverSocket = null;
 
         try {
-            serverSocket = new ServerSocket(10008);
+            serverSocket = new ServerSocket(port);
             System.out.println("Connection Socket Created");
             try {
                 while (serverContinue) {
                     System.out.println("Waiting for Connection");
                     Socket socket = serverSocket.accept();
-                    new EchoServer2c(socket);
+                    handleClient(socket);
                 }
             } catch (IOException e) {
                 System.err.println("Accept failed.");
-                System.exit(1);
             }
         } catch (IOException e) {
-            System.err.println("Could not listen on port: 10008.");
-            System.exit(1);
+            System.err.println("Could not listen on port: " + port);
         } finally {
-            try {
-                serverSocket.close();
-            } catch (IOException e) {
-                System.err.println("Could not close port: 10008.");
-                System.exit(1);
+            if (serverSocket != null && !serverSocket.isClosed()) {
+                try {
+                    serverSocket.close();
+                } catch (IOException e) {
+                    System.err.println("Could not close port: " + port);
+                }
             }
         }
     }
 
-    private EchoServer2c(Socket clientSoc) {
-        clientSocket = clientSoc;
+    private static void handleClient(Socket clientSocket) {
         clientSockets.add(clientSocket);
-        start();
-    }
+        new Thread(() -> {
+            try {
+                System.out.println("New Communication Thread Started");
+                MyObjectOutputStream out = new MyObjectOutputStream(clientSocket.getOutputStream());
+                MyObjectInputStream in = new MyObjectInputStream(clientSocket.getInputStream());
 
-    public void run() {
-        System.out.println("New Communication Thread Started");
+                Object inputLine;
 
-        try {
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                while ((inputLine = in.readObject()) != null) {
+                    //System.out.println("Server: " + inputLine);
+                    broadcastMessage(inputLine);
 
-            String inputLine;
+                    if (inputLine.equals("Bye."))
+                        break;
 
-            while ((inputLine = in.readLine()) != null) {
-                System.out.println("Server: " + inputLine);
-                broadcastMessage(inputLine);
+                    if (inputLine.equals("End Server.")) {
+                        serverContinue = false;
+                        break;
+                    }
+                }
 
-                if (inputLine.equals("Bye."))
-                    break;
-
-                if (inputLine.equals("End Server."))
-                    serverContinue = false;
+                out.close();
+                in.close();
+                clientSocket.close();
+                clientSockets.remove(clientSocket);
+            } catch (IOException | ClassNotFoundException e) {
+                System.err.println("Problem with Communication Server");
             }
-
-            out.close();
-            in.close();
-            clientSocket.close();
-            clientSockets.remove(clientSocket);
-        } catch (IOException e) {
-            System.err.println("Problem with Communication Server");
-            System.exit(1);
-        }
+        }).start();
     }
 
-    private void broadcastMessage(String message) {
+    private static void broadcastMessage(Object message) {
         for (Socket socket : clientSockets) {
             try {
-                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                out.println(message);
+                MyObjectOutputStream out = new MyObjectOutputStream(socket.getOutputStream());
+                out.writeObject(message);
             } catch (IOException e) {
                 System.err.println("Problem with broadcasting message");
             }
         }
+    }
+
+    static class MyObjectOutputStream extends ObjectOutputStream {
+        public MyObjectOutputStream(OutputStream out) throws IOException {
+            super(out);
+        }
+
+        @Override
+        protected void writeStreamHeader() throws IOException {
+            super.reset();
+        }
+    }
+
+    static class MyObjectInputStream extends ObjectInputStream {
+        public MyObjectInputStream(InputStream in) throws IOException {
+            super(in);
+        }
+
+        @Override
+        protected void readStreamHeader() throws IOException {
+            // No operation
+        }
+    }
+    public static void main(String[] args) throws IOException {
+        startServer(10008);
     }
 }
