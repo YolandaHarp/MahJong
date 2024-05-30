@@ -60,6 +60,13 @@ public class Cards_in_hand {
         Collections.sort(n);
         putAwayCard.add(n);
     }
+    void removeCard(ArrayList<Integer> n){
+        for(Integer i:n) {
+            cards.remove(i);
+        }
+        putAwayCard.add(n);
+    }
+
     void removeCKongCard(Integer i,int j){
         cards.remove(i);
         putAwayCard.addKongCard(j);

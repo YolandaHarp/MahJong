@@ -5,7 +5,6 @@ import java.util.Arrays;
 
 public class Check_ConcealedKong extends Check_ExposedKong implements Find_Action {
     private ArrayList<Integer> availableCards2 = new ArrayList<>();
-    boolean hand;
 
     Check_ConcealedKong(Cards_in_hand cards) {
         super(cards);
@@ -15,7 +14,10 @@ public class Check_ConcealedKong extends Check_ExposedKong implements Find_Actio
         availableCards = findSameCards(cards.showCards(), 4);
         availableCards2 = new ArrayList<>();
         for(int i:cards.getPutAway().getPongIndex()){
-            availableCards2.add(cards.getPutAway().show().get(i).get(0));
+            int j=cards.getPutAway().show().get(i).get(0);
+            if(cards.showCards().contains(j)) {
+                availableCards2.add(j);
+            }
         }
     }
     @Override
@@ -38,7 +40,8 @@ public class Check_ConcealedKong extends Check_ExposedKong implements Find_Actio
         }else {
             actionCard = availableCards.get(n);
             cards.setcKongNum();
-            super.removeCard(n);
+            Discard_Pile.getDiscard().remove();
+            cards.removeCard(new ArrayList<>(Arrays.asList(actionCard,actionCard,actionCard,actionCard)));
         }
     }
     boolean checkContain(){
