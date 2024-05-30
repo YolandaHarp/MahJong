@@ -1,4 +1,4 @@
-package fx;
+package GUI;
 
 import game.Mahjong;
 import javafx.geometry.Insets;
@@ -7,14 +7,14 @@ import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 
-public class ChoicePane implements Screens{
+ class ChoicePane implements Screens{
     HBox h;
     private static ChoicePane choicePane = new ChoicePane();
     int choice;
     volatile boolean doneChoose;
     private ChoicePane(){
     }
-    public static ChoicePane getChoicePane(){
+    protected static ChoicePane getChoicePane(){
         return choicePane;
     }
 
@@ -34,9 +34,9 @@ public class ChoicePane implements Screens{
         doneChoose = false;
         h.getChildren().clear();
         if(b){
-            updateChowChoices(Mahjong.getMJ().getPlayer(Mahjong.getMJ().getNowPlayer()).getAction().getChowChoice());
+            updateChowChoices(Mahjong.getMJ().getPlayer(Mahjong.getMJ().getPlayerNum()).getAction().getChowChoice());
         }else{
-            updateSingleChoices(Mahjong.getMJ().getPlayer(Mahjong.getMJ().getNowPlayer()).getAction().getCKongChoice());
+            updateSingleChoices(Mahjong.getMJ().getPlayer(Mahjong.getMJ().getPlayerNum()).getAction().getCKongChoice());
         }
         h.setVisible(true);
     }
@@ -70,6 +70,7 @@ public class ChoicePane implements Screens{
                 throw new RuntimeException(e);
             }
         }
+        doneChoose = false;
         return choice;
     }
 }
