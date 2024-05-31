@@ -2,35 +2,32 @@ package net;
 
 import game.Mahjong;
 import game.Transmit;
+import model.Discard_Pile;
+import model.Stack_of_cards;
 
 import java.io.*;
 import java.net.*;
-import java.util.Scanner;
+
+import static GUI.CardsController.updateGame;
 
 public class Client {
+    private static Client client = new Client();
     private Socket echoSocket = null;
-    private EchoServer2c.MyObjectOutputStream out = null;
-    private EchoServer2c.MyObjectInputStream in = null;
+    private ObjectOutputStream out = null;
+    private ObjectInputStream in = null;
+    private Client(){}
+    public static Client getClient(){
+        return client;
+    }
 
     public void startClient(String serverHostname, int port) throws IOException {
         try {
             echoSocket = new Socket(serverHostname, port);
-            out = new EchoServer2c.MyObjectOutputStream(echoSocket.getOutputStream());
-            in = new EchoServer2c.MyObjectInputStream(echoSocket.getInputStream());
-
+            out = new ObjectOutputStream(echoSocket.getOutputStream());
+            in = new ObjectInputStream(echoSocket.getInputStream());
             // 创建一个新线程用于接收服务器的消息
             new Thread(() -> {
-                try {
-                    while (true) {
-                        Transmit serverMessage = (Transmit) in.readObject();
-                        if (serverMessage == null || serverMessage.equals("Bye.")) {
-                            break;
-                        }
-                        System.out.println("Server: " + serverMessage.getMJ().getNowPlayer());
-                    }
-                } catch (IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
+                receiveMessage();
             }).start();
 
         } catch (UnknownHostException e) {
@@ -41,10 +38,31 @@ public class Client {
             throw e;
         }
     }
+    private void receiveMessage(){
+        try {
+            while (true) {
+                Object serverMessage=in.readObject();
+                if (serverMessage == null) {
+                    continue;
+                }
+                Transmit transmite = (Transmit) serverMessage;
+                Mahjong.getMJ().setMJ(transmite.getMJ());
+                Mahjong.getMJ().setPlayerNum(transmite.getPlayerNum());
+                Discard_Pile.getDiscard().setDiscard(transmite.getDiscards());
+                Stack_of_cards.getStack().setStack(transmite.getStack());
+                updateGame(false);
+                Mahjong.getMJ().startOnlineGame();
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
-    public void sendMessage(Object message) throws IOException {
+    public void sendMessage() throws IOException {
         if (out != null) {
-            out.writeObject(message);
+            Transmit t=new Transmit();
+            out.reset();
+            out.writeObject(t);
             out.flush();
         } else {
             throw new IOException("Output stream is not initialized.");
@@ -57,7 +75,7 @@ public class Client {
         if (echoSocket != null) echoSocket.close();
     }
 
-    public static void main(String[] args) throws IOException {
+    /*public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the IPV4 address: ");
         String input = scanner.next();
@@ -87,5 +105,5 @@ public class Client {
         client.stopClient();
         stdIn.close();
         scanner.close();
-    }
+    }*/
 }
