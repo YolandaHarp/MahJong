@@ -1,15 +1,16 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Check_Other_Win {
+public class Check_Other_Win implements Serializable {
     private static Check_Other_Win otherWin = new Check_Other_Win();
     ArrayList<Integer> oneOfAKind = new ArrayList<Integer>(Arrays.asList(0,8,9,17,18,26,27,28,29,30,31,32,33));
     int pairNum=0;
 
     private Check_Other_Win() {}
-    public static Check_Other_Win getOtherWin(){
+    protected static Check_Other_Win getOtherWin(){
         return otherWin;
     }
     boolean check(int[] cardCountOrigin,int jokerInHandOrigin){

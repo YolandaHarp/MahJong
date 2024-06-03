@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Discard_Pile {
+public class Discard_Pile implements Serializable {
     String[] table = new String[]{"一筒","二筒","三筒","四筒","五筒","六筒","七筒","八筒","九筒",
             "一条","二条","三条","四条","五条","六条","七条","八条","九条",
             "一万","二万","三万","四万","五万","六万","七万","八万","九万","东","南","西",
@@ -25,7 +26,7 @@ public class Discard_Pile {
     int getLast(){
         return cards.get(cards.size() - 1);
     }
-    void clear(){
+    public void clear(){
         cards = new ArrayList<Integer>();
     }
     public ArrayList<Integer> show(){
@@ -36,5 +37,8 @@ public class Discard_Pile {
             System.out.print(table[i]+" ");
         }
         System.out.println();
+    }
+    public void setDiscard(ArrayList<Integer> c){
+        cards=c;
     }
 }

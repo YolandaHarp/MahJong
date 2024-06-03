@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Cards_in_hand {
+public class Cards_in_hand implements Serializable {
     String[] table = new String[]{"一筒","二筒","三筒","四筒","五筒","六筒","七筒","八筒","九筒",
             "一条","二条","三条","四条","五条","六条","七条","八条","九条",
             "一万","二万","三万","四万","五万","六万","七万","八万","九万","东","南","西",
@@ -29,8 +30,8 @@ public class Cards_in_hand {
 
     public void drawCard() {
         int pick= Stack_of_cards.getStack().pick();
-        action.checkCardAction_draw(pick);
         cards.add(pick);
+        action.checkCardAction_draw(pick);
     }
 
     void drawCardFromBottom() {
@@ -74,7 +75,7 @@ public class Cards_in_hand {
     public PutAwayCards getPutAway(){
         return putAwayCard;
     }
-    void checkCards(){
+    public void checkCards(){
         clearStatus();
         action.checkCardAction();
     }

@@ -1,10 +1,11 @@
 package model;
 
+import java.io.Serializable;
 import java.util.*;
 
 import static model.Check_Pong.*;
 
-public class Check_Win implements Find_Action{
+public class Check_Win implements Find_Action, Serializable {
     private ArrayList<Integer> winCards ;
     private int[] cardCount;
     private int[] cardCountOrigin;
@@ -19,6 +20,9 @@ public class Check_Win implements Find_Action{
     }
     boolean checkWin(int c) {
         check = new ArrayList<Integer>(cards.showCards());
+        if(cards.showCards().size()%3==2){
+            check.remove(check.size()-1);
+        }
         check.add(c);
         Collections.sort(check);
         cardCountOrigin=countList(check);

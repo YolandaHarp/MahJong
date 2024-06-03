@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Actions {
+public class Actions implements Serializable {
     private Find_Action[] actions;
     Cards_in_hand cards;
     Actions(Cards_in_hand c){

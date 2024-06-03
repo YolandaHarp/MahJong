@@ -1,9 +1,10 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Check_Pong implements Find_Action {
+public class Check_Pong implements Find_Action , Serializable {
     protected ArrayList<Integer> availableCards;
     Cards_in_hand cards;
     protected Integer actionCard;
@@ -11,7 +12,7 @@ public class Check_Pong implements Find_Action {
         this.cards = cards;
         availableCards =new ArrayList<>();
     }
-    static int[] countList(ArrayList<Integer> cardList){
+    protected static int[] countList(ArrayList<Integer> cardList){
         int[] countList = new int[34];
         for (int num : cardList) {
             if(num!=34) {
@@ -20,7 +21,7 @@ public class Check_Pong implements Find_Action {
         }
         return countList;
     }
-    static ArrayList<Integer> findSameCards(ArrayList<Integer> cardList, int n) {
+    protected static ArrayList<Integer> findSameCards(ArrayList<Integer> cardList, int n) {
         int[] countList = countList(cardList);
         ArrayList<Integer> result = new ArrayList<>();
         for (int i=0; i<=33;i++) {

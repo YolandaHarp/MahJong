@@ -1,9 +1,10 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Check_ExposedKong extends Check_Pong implements Find_Action {
+public class Check_ExposedKong extends Check_Pong implements Find_Action , Serializable {
 
     Check_ExposedKong(Cards_in_hand cards) {
         super(cards);

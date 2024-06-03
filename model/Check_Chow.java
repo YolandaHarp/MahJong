@@ -1,11 +1,12 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Check_Chow implements Find_Action {
+public class Check_Chow implements Find_Action , Serializable {
     private Map<Integer, ArrayList<Integer[]>> chowCards;
     private ArrayList<Integer[]> actionPairs;
     private Integer actionCard;

@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Stack_of_cards {
+public class Stack_of_cards implements Serializable {
     private static Stack_of_cards stack=new Stack_of_cards();
     Random random = new Random();
     private Deque<Integer> cards = new ArrayDeque<>();
@@ -13,10 +14,10 @@ public class Stack_of_cards {
     public static Stack_of_cards getStack(){
         return stack;
     }
-    int pick(){
+    protected int pick(){
         return cards.removeFirst();
     }
-    int pickFromBottom(){
+    protected int pickFromBottom(){
         return cards.pop();
     }
     public int remainCardNum(){
@@ -42,6 +43,7 @@ public class Stack_of_cards {
         return pointJoker;
     }
     public void newStack(){
+        cards.clear();
         List<Integer> list = new ArrayList<>();
         for(int j =1 ;j <= 4; j++){
             for(int i = 0; i <= 34; i++){
@@ -56,5 +58,11 @@ public class Stack_of_cards {
         for(int i=0;i<4;i++){
             cards.remove(joker);
         }
+    }
+    public Deque<Integer> show(){
+        return new ArrayDeque<>(cards);
+    }
+    public void setStack(Stack_of_cards s){
+        stack=s;
     }
 }
