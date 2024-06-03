@@ -1,108 +1,101 @@
 package net;
 
+import MainScreen.HostGame;
+import game.Transmit;
+
 import java.net.*;
 import java.io.*;
 import java.util.ArrayList;
 
 public class EchoServer2c {
-    protected static boolean serverContinue = true;
-    protected static ArrayList<Socket> clientSockets = new ArrayList<>();
-
-    public static void startServer(int port) throws IOException {
-        System.out.println(GetIP.ip());
-        ServerSocket serverSocket = null;
-
-        try {
-            serverSocket = new ServerSocket(port);
-            System.out.println("Connection Socket Created");
-            try {
-                while (serverContinue) {
-                    System.out.println("Waiting for Connection");
-                    Socket socket = serverSocket.accept();
-                    handleClient(socket);
-                }
-            } catch (IOException e) {
-                System.err.println("Accept failed.");
-            }
-        } catch (IOException e) {
-            System.err.println("Could not listen on port: " + port);
-        } finally {
-            if (serverSocket != null && !serverSocket.isClosed()) {
-                try {
-                    serverSocket.close();
-                } catch (IOException e) {
-                    System.err.println("Could not close port: " + port);
-                }
-            }
-        }
+    private static EchoServer2c server = new EchoServer2c();
+    private boolean serverContinue = true;
+    protected ArrayList<ObjectOutputStream> clientSockets=new ArrayList<>();
+    private EchoServer2c(){}
+    public static EchoServer2c getServer(){
+        return server;
     }
 
-    private static void handleClient(Socket clientSocket) {
-        clientSockets.add(clientSocket);
-        new Thread(() -> {
+    public void startServer(int port)  {
+        serverContinue = true;
+        new Thread(()->{
             try {
-                System.out.println("New Communication Thread Started");
-                MyObjectOutputStream out = new MyObjectOutputStream(clientSocket.getOutputStream());
-                MyObjectInputStream in = new MyObjectInputStream(clientSocket.getInputStream());
-
-                Object inputLine;
-
-                while ((inputLine = in.readObject()) != null) {
-                    //System.out.println("Server: " + inputLine);
-                    broadcastMessage(inputLine);
-
-                    if (inputLine.equals("Bye."))
-                        break;
-
-                    if (inputLine.equals("End Server.")) {
-                        serverContinue = false;
-                        break;
+                ServerSocket serverSocket = new ServerSocket(port);
+                serverSocket.setSoTimeout(1000);
+                System.out.println("Connection Socket Created");
+                while (serverContinue) {
+                    try {
+                        Socket socket = serverSocket.accept();
+                        handleClient(socket);
+                    } catch (SocketTimeoutException e) {
                     }
                 }
-
-                out.close();
-                in.close();
-                clientSocket.close();
-                clientSockets.remove(clientSocket);
-            } catch (IOException | ClassNotFoundException e) {
-                System.err.println("Problem with Communication Server");
+                serverSocket.close();
+                System.out.println("Sever close");
+                clientSockets.clear();
+            } catch (IOException e) {
+                serverContinue=false;
+                System.err.println("Could not listen on port: " + port);
             }
         }).start();
     }
 
-    private static void broadcastMessage(Object message) {
-        for (Socket socket : clientSockets) {
+    private void handleClient(Socket clientSocket) {
+        new Thread(() -> {
             try {
-                MyObjectOutputStream out = new MyObjectOutputStream(socket.getOutputStream());
-                out.writeObject(message);
-            } catch (IOException e) {
-                System.err.println("Problem with broadcasting message");
+                if (clientSockets.size() == 4) {
+                    clientSocket.close();
+                    return;
+                }
+                HostGame.addPlayer();
+                System.out.println("New Communication Thread Started");
+                ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
+                ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
+                clientSockets.add(out);
+
+                Object inputLine;
+                while ((inputLine = in.readObject()) != null) {
+                    //System.out.println("Server: " + inputLine);
+                    broadcastMessage(inputLine,out);
+
+                }
+                out.close();
+                in.close();
+                clientSocket.close();
+                serverContinue=false;
+            } catch (IOException | ClassNotFoundException e) {
+                broadcastMessage(null,null);
+                serverContinue=false;
+            }
+
+        }).start();
+    }
+
+    private void broadcastMessage(Object message,ObjectOutputStream o) {
+        for (int i=0;i<clientSockets.size();i++) {
+            ObjectOutputStream out = clientSockets.get(i);
+            if (out != o) {
+                try {
+                    Transmit t=null;
+                    if(message!=null) {
+                        t = (Transmit) message;
+                        t.setPlayerNum(i);
+                    }
+                    out.reset();
+                    out.writeObject(t);
+                } catch (IOException e) {
+                    //System.err.println("Problem with broadcasting message");
+                }
             }
         }
     }
-
-    static class MyObjectOutputStream extends ObjectOutputStream {
-        public MyObjectOutputStream(OutputStream out) throws IOException {
-            super(out);
-        }
-
-        @Override
-        protected void writeStreamHeader() throws IOException {
-            super.reset();
-        }
+    public boolean getServerContinue(){
+        return serverContinue;
     }
 
-    static class MyObjectInputStream extends ObjectInputStream {
-        public MyObjectInputStream(InputStream in) throws IOException {
-            super(in);
-        }
 
-        @Override
-        protected void readStreamHeader() throws IOException {
-            // No operation
-        }
-    }
-    public static void main(String[] args) throws IOException {
-        startServer(10008);
-    }
+    //public static void main(String[] args) throws IOException {
+      //  startServer(10008);
+    //}
+
 }

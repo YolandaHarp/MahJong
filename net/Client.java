@@ -1,5 +1,6 @@
 package net;
 
+import MainScreen.MainScreen;
 import game.Mahjong;
 import game.Transmit;
 import model.Discard_Pile;
@@ -8,6 +9,7 @@ import model.Stack_of_cards;
 import java.io.*;
 import java.net.*;
 
+import static GUI.CardsController.showNetError;
 import static GUI.CardsController.updateGame;
 
 public class Client {
@@ -15,19 +17,26 @@ public class Client {
     private Socket echoSocket = null;
     private ObjectOutputStream out = null;
     private ObjectInputStream in = null;
+    private boolean receiveContinue;
     private Client(){}
     public static Client getClient(){
         return client;
     }
 
     public void startClient(String serverHostname, int port) throws IOException {
+        receiveContinue=true;
         try {
             echoSocket = new Socket(serverHostname, port);
+            echoSocket.setSoTimeout(1000);
             out = new ObjectOutputStream(echoSocket.getOutputStream());
             in = new ObjectInputStream(echoSocket.getInputStream());
             // 创建一个新线程用于接收服务器的消息
             new Thread(() -> {
-                receiveMessage();
+                try {
+                    receiveMessage();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }).start();
 
         } catch (UnknownHostException e) {
@@ -38,12 +47,17 @@ public class Client {
             throw e;
         }
     }
-    private void receiveMessage(){
+    private void receiveMessage() throws IOException {
         try {
-            while (true) {
-                Object serverMessage=in.readObject();
-                if (serverMessage == null) {
+            while (receiveContinue) {
+                Object serverMessage = null;
+                try {
+                    serverMessage = in.readObject();
+                } catch (SocketTimeoutException e) {
                     continue;
+                }
+                if (serverMessage == null) {
+                    throw new IOException();
                 }
                 Transmit transmite = (Transmit) serverMessage;
                 Mahjong.getMJ().setMJ(transmite.getMJ());
@@ -53,7 +67,10 @@ public class Client {
                 updateGame(false);
                 Mahjong.getMJ().startOnlineGame();
             }
+            stopClient();
         } catch (IOException | ClassNotFoundException e) {
+            showNetError();
+            stopClient();
             e.printStackTrace();
         }
     }
@@ -68,8 +85,15 @@ public class Client {
             throw new IOException("Output stream is not initialized.");
         }
     }
+    public void endMessage() throws IOException {
+        out.reset();
+        out.writeObject(null);
+        out.flush();
+        receiveContinue=false;
+        stopClient();
+    }
 
-    public void stopClient() throws IOException {
+    private void stopClient() throws IOException {
         if (out != null) out.close();
         if (in != null) in.close();
         if (echoSocket != null) echoSocket.close();
