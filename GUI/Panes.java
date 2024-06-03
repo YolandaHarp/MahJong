@@ -1,10 +1,10 @@
-package fx;
+package GUI;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 
-public abstract class Panes {
+ abstract class Panes {
     Pane p;
     GraphicsContext gc;
 

@@ -1,26 +1,36 @@
-package fx;
+package GUI;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
+import language.LanguageChange;
 
-public class DrawPane implements Screens{
+class DrawPane implements Screens{
     private static DrawPane drawPane=new DrawPane();
-    Pane table;
-    Label l;
+    Pane p;
     private DrawPane() {}
-    public static DrawPane getDrawPane(){
+    protected static DrawPane getDrawPane(){
         return drawPane;
     }
     @Override
     public void initialize(Pane p) {
-        l=(Label) p.lookup("#over");
-        table=(Pane)p.lookup("#table");
+        this.p=p;
+        ((Label)p.lookup("#over")).setText(LanguageChange.getLanguage().getString("over"));
     }
 
     @Override
     public void updateCanvases() {
-        table.setVisible(false);
-        l.setVisible(true);
-        l.setText("Draw");
+        clearTable();
+        ((Label)p.lookup("#over")).setText(LanguageChange.getLanguage().getString("draw"));
     }
+    protected void clearTable(){
+        p.lookup("#table").setVisible(false);
+        p.lookup("#over").setVisible(true);
+        p.lookup("#leave").setVisible(true);
+    }
+    protected void showTurn(boolean b){
+        p.lookup("#table").lookup("#turn").setVisible(b);
+    }
+
+
 }

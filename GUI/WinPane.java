@@ -1,52 +1,56 @@
-package fx;
+package GUI;
 
 import game.Mahjong;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
+import language.LanguageChange;
 
 import java.util.ArrayList;
 
-public class WinPane implements Screens{
+class WinPane implements Screens{
     private static WinPane finished = new WinPane();
-    Pane table;
-    Label over;
-    HBox wcard;
-    HBox wcard1;
+    Label winner;
+    Pane p;
 
     private WinPane(){}
-    public static WinPane getFinish(){
+    protected static WinPane getFinish(){
         return finished;
     }
     @Override
     public void initialize(Pane p) {
-        table=(Pane)p.lookup("#table");
-        over=(Label) p.lookup("#over");
-        wcard=(HBox) p.lookup("#wcard");
-        wcard1=(HBox) p.lookup("#wcard1");
-        wcard1.setSpacing(10);
-
+        this.p=p;
+        ((HBox) p.lookup("#wcard1")).setSpacing(10);
+        winner=new Label();
+        winner.setLayoutX(222);
+        winner.setLayoutY(425);
+        winner.setFont(new Font(40));
+        winner.setVisible(false);
+        p.getChildren().add(winner);
     }
 
     @Override
     public void updateCanvases() {
-        table.setVisible(false);
-        over.setVisible(true);
-        ArrayList<Integer> cards= Mahjong.getMJ().getPlayer(Mahjong.getMJ().getNowPlayer()).showCards();
-        for(int i=0;i<cards.size();i++){
-            updateCard(wcard,i,cards.get(i));
-        }
-        ArrayList<ArrayList<Integer>> putAwayCards=Mahjong.getMJ().getPlayer(Mahjong.getMJ().getNowPlayer()).getPutAway().show();
-        for(int i=0;i<putAwayCards.size(); i ++){
-            HBox hbox =new HBox();
-            for(int j:putAwayCards.get(i)){
-                updateCard(hbox,i,j);
+        if(p.lookup("#table").isVisible()) {
+            DrawPane.getDrawPane().clearTable();
+            winner.setText(LanguageChange.getLanguage().getString("player")+Mahjong.getMJ().getNowPlayer()+" "+LanguageChange.getLanguage().getString("win"));
+            winner.setVisible(true);
+            ArrayList<Integer> cards = Mahjong.getMJ().getPlayer(Mahjong.getMJ().getNowPlayer()).showCards();
+            for (int i = 0; i < cards.size(); i++) {
+                updateCard((HBox) p.lookup("#wcard"), i, cards.get(i));
             }
-            wcard1.getChildren().add(hbox);
+            ArrayList<ArrayList<Integer>> putAwayCards = Mahjong.getMJ().getPlayer(Mahjong.getMJ().getNowPlayer()).getPutAway().show();
+            for (int i = 0; i < putAwayCards.size(); i++) {
+                HBox hbox = new HBox();
+                for (int j : putAwayCards.get(i)) {
+                    updateCard(hbox, i, j);
+                }
+                ((HBox) p.lookup("#wcard1")).getChildren().add(hbox);
+            }
+            p.lookup("#wcard").setVisible(true);
+            p.lookup("#wcard1").setVisible(true);
         }
-        wcard.setVisible(true);
-        wcard1.setVisible(true);
-
     }
     static CardPane updateCard(HBox h,int i,int value){
         Pane pane =new Pane();

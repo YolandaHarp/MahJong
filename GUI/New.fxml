@@ -6,11 +6,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="stage" style="-fx-background-color: #4753D2FF;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.CardsController">
+<Pane fx:id="stage" style="-fx-background-color: #4753D2FF;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.CardsController">
    <children>
       <Pane id="table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="830.0" prefWidth="1280.0" style="-fx-background-color: #4753D2FF;">
          <children>
-            <Button fx:id="next" layoutX="14.0" layoutY="731.0" mnemonicParsing="false" text="Show Card" />
+            <Button id="show" layoutX="14.0" layoutY="731.0" mnemonicParsing="false" text="Show Card" visible="false" />
             <Pane id="handcard" layoutX="123.0" layoutY="690.0" prefHeight="140.0" prefWidth="1034.0" style="-fx-background-color: #6673E7FF; -fx-border-radius: 10px; -fx-background-radius: 10px;">
                <children>
                   <Pane id="card0" layoutX="29.0" layoutY="21.0" prefHeight="98.0" prefWidth="70.0" />
@@ -47,16 +47,27 @@
                      <Pane id="but4" layoutX="473.0" layoutY="5.0" prefHeight="98.0" prefWidth="98.0" />
                </children>
             </Pane>
+            <Label id="turn" layoutX="150.0" layoutY="600.0" text="You&#10;turn" textFill="WHITE" visible="false">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
             <Pane id="discard" layoutX="209.0" layoutY="164.0" prefHeight="392.0" prefWidth="839.0" />
             <HBox id="choices" layoutX="239.0" layoutY="556.0" opacity="0.8" style="-fx-background-radius: 30; -fx-background-color: #1059A2;" visible="false" />
          </children>
       </Pane>
-      <Label id="over" layoutX="339.0" layoutY="194.0" prefHeight="123.0" prefWidth="900.0" text="Game Over" visible="false">
+      <Label id="over" layoutX="339.0" layoutY="194.0" prefHeight="123.0" prefWidth="900.0" text="Game Over" textFill="WHITE" visible="false">
          <font>
             <Font size="96.0" />
          </font>
       </Label>
-      <HBox id="wcard" layoutX="322.0" layoutY="528.0" visible="false" />
-      <HBox id="wcard1" layoutX="322.0" layoutY="638.0" visible="false" />
+      <HBox id="wcard" layoutX="122.0" layoutY="528.0" visible="false" />
+      <HBox id="wcard1" layoutX="222.0" layoutY="638.0" visible="false" />
+      <Label id="wait" layoutX="400.0" layoutY="300.0" text="Waiting" textFill="WHITE">
+         <font>
+            <Font name="MV Boli" size="60.0" />
+         </font>
+      </Label>
+      <Pane id="leave" layoutX="1170.0" layoutY="50.0" visible="false" />
    </children>
 </Pane>

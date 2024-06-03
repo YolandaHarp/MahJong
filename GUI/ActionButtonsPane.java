@@ -1,19 +1,17 @@
-package fx;
+package GUI;
 
 import game.Mahjong;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
+import language.LanguageChange;
 
-public class ActionButtonsPane implements Screens{
-    String[] s=new String[]{"胡","杠","碰","吃","取消"};
+class ActionButtonsPane implements Screens{
+    String[] s=new String[]{LanguageChange.getLanguage().getString("win"),LanguageChange.getLanguage().getString("kong"),LanguageChange.getLanguage().getString("pong"),LanguageChange.getLanguage().getString("chow"),LanguageChange.getLanguage().getString("cancel")};
     private static ActionButtonsPane button = new ActionButtonsPane();
     ActionButton[] buttons = new ActionButton[5];
     private ActionButtonsPane(){}
-    public static ActionButtonsPane getButton(){
+    protected static ActionButtonsPane getButton(){
         return button;
     }
     @Override
@@ -22,7 +20,7 @@ public class ActionButtonsPane implements Screens{
         for(int i=0;i<5;i++){
             buttons[i]=new ActionButton((Pane) p.lookup("#but"+i));
             Label l=new Label(s[i]);
-            l.setLayoutX(30);
+            l.setLayoutX(15);
             l.setLayoutY(35);
             l.setFont(new Font("Arial",30));
             buttons[i].getPane().getChildren().add(l);
@@ -41,7 +39,7 @@ public class ActionButtonsPane implements Screens{
 
     @Override
     public void updateCanvases() {
-        int now=Mahjong.getMJ().getNowPlayer();
+        int now=Mahjong.getMJ().getPlayerNum();
         for(int i=0;i<5;i++){
             if(Mahjong.getMJ().getPlayer(now).getStatus(i)){
                 if(i==4){

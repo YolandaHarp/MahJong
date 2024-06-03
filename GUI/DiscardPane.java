@@ -1,6 +1,5 @@
-package fx;
+package GUI;
 
-import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
 import model.Discard_Pile;
 import screen.cardsScreen.CardScreen;
@@ -8,12 +7,12 @@ import screen.cardsScreen.tileFactory;
 
 import java.util.ArrayList;
 
-public class DiscardPane extends Panes implements Screens{
+ class DiscardPane extends Panes implements Screens{
     private static DiscardPane discards=new DiscardPane(new Pane());
     private DiscardPane(Pane p){
         super(p);
     }
-    public static DiscardPane getDiscards(){
+    protected static DiscardPane getDiscards(){
         return discards;
     }
 

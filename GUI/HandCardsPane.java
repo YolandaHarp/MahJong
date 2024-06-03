@@ -1,11 +1,11 @@
-package fx;
+package GUI;
 
 import game.Mahjong;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 
-public class HandCardsPane implements Screens{
+class HandCardsPane implements Screens{
     private static HandCardsPane handCardsPane = new HandCardsPane();
     CardPane[] panes=new CardPane[14];
     boolean playCard;
@@ -38,14 +38,14 @@ public class HandCardsPane implements Screens{
         }
 
     }
-    public static HandCardsPane getHandCardsPane() {
+    protected static HandCardsPane getHandCardsPane() {
         return handCardsPane;
     }
     @Override
     public void updateCanvases() {
     }
     public void updateCards(boolean hide){
-        int now=Mahjong.getMJ().getNowPlayer();
+        int now=Mahjong.getMJ().getPlayerNum();
         ArrayList<Integer> cards= Mahjong.getMJ().getPlayer(now).showCards();
         for (int i = 0; i < 14; i++) {
             if(i>=cards.size()){

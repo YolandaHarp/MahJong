@@ -1,16 +1,18 @@
-package fx;
+package GUI;
 
 import game.Mahjong;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import language.LanguageChange;
 import model.Cards_in_hand;
 import screen.cardsScreen.CardScreen;
 import screen.cardsScreen.tileFactory;
 
 import java.util.ArrayList;
 
-public class PlayerCardPane extends Panes{
+class PlayerCardPane extends Panes{
     int angle;
     Label l;
 
@@ -22,11 +24,12 @@ public class PlayerCardPane extends Panes{
         l=new Label();
         p.getChildren().add(l);
         l.setFont(new Font(20));
+        l.setTextFill(Color.WHITE);
 
     }
     void update(int i){
         gc.clearRect(-500, -500, 1280,830);
-        l.setText("Player "+(i+1));
+        l.setText(LanguageChange.getLanguage().getString("player") +(i+1));
         int x = -(int) Math.max(p.getPrefWidth()/2,p.getPrefHeight()/2)+45;
         Cards_in_hand player= Mahjong.getMJ().getPlayer(i);
         updateCardsUpper(player,x);
