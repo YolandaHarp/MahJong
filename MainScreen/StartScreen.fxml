@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:id="mainScreen" prefHeight="830.0" prefWidth="1280.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%,#FF0000FF, #0000FFFF);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainScreen.StartController">
+   <children>
+      <Pane fx:id="lines" prefHeight="830.0" prefWidth="1280.0" />
+      <Pane id="but0" layoutX="214.0" layoutY="300.0" prefHeight="300.0" prefWidth="175.0">
+         <children>
+            <Pane id="card" prefHeight="245.0" prefWidth="175.0" />
+            <Label id="l" layoutY="245.0" prefHeight="58.0" prefWidth="175.0" text="Local mode" textFill="WHITE" visible="false">
+               <font>
+                  <Font name="MV Boli" size="30.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane id="but2" layoutX="884.0" layoutY="300.0" prefHeight="300.0" prefWidth="175.0">
+         <children>
+            <Pane id="card" prefHeight="245.0" prefWidth="175.0" />
+            <Label id="l" layoutY="245.0" prefHeight="58.0" prefWidth="175.0" text="Online (client)" textFill="WHITE" visible="false">
+               <font>
+                  <Font name="MV Boli" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane id="but1" layoutX="555.0" layoutY="300.0" prefHeight="300.0" prefWidth="175.0">
+         <children>
+            <Pane id="card" prefHeight="245.0" prefWidth="175.0" />
+            <Label id="l" layoutY="245.0" prefHeight="58.0" prefWidth="175.0" text="Online (host)" textFill="WHITE" visible="false">
+               <font>
+                  <Font name="MV Boli" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Label layoutX="135.0" layoutY="75.0" text="MAHJONG" textFill="WHITE">
+         <font>
+            <Font name="MV Boli" size="80.0" />
+         </font>
+          <effect>
+              <Blend mode="multiply">
+                  <bottomInput>
+                      <DropShadow color="black" offsetX="5" offsetY="5" radius="10" />
+                  </bottomInput>
+                  <topInput>
+                      <DropShadow color="purple" offsetX="10" offsetY="10" radius="10" />
+                  </topInput>
+              </Blend>
+          </effect>
+      </Label>
+      <Pane id="leave" layoutX="1170.0" layoutY="700.0" />
+      <Pane id="info" layoutX="1170.0" layoutY="50.0" />
+      <BorderPane id="language" layoutX="500.0" layoutY="700.0">
+         <center>
+            <Label id="name" text="English" textFill="WHITE" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="MV Boli" size="40.0" />
+               </font>
+            </Label>
+         </center>
+         <left>
+            <Label id="left" text="&lt;  " textFill="WHITE" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="40.0" />
+               </font>
+            </Label>
+         </left>
+         <right>
+            <Label id="right" text="  &gt;" textFill="WHITE" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="40.0" />
+               </font>
+            </Label>
+         </right>
+      </BorderPane>
+   </children>
+</Pane>
