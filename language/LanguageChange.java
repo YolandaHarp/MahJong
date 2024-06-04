@@ -7,7 +7,7 @@ import java.util.Properties;
 
 public class LanguageChange {
     private int languageCode=0;
-    private final int LANGUAGE_TOTAL = 2;
+    private final int LANGUAGE_TOTAL = 5;
     private static LanguageChange language=new LanguageChange();
     private LanguageChange(){}
     public static LanguageChange getLanguage(){
