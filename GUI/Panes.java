@@ -5,6 +5,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 
  abstract class Panes {
+     // Create a pane on which could draw on it
+
     Pane p;
     GraphicsContext gc;
 

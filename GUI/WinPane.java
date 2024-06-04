@@ -9,11 +9,14 @@ import language.LanguageChange;
 
 import java.util.ArrayList;
 
+// Singleton pattern
+// Null Object pattern
 class WinPane implements Screens{
+    // Show the win player and his cards
+
     private static WinPane finished = new WinPane();
     Label winner;
     Pane p;
-
     private WinPane(){}
     protected static WinPane getFinish(){
         return finished;
@@ -22,6 +25,8 @@ class WinPane implements Screens{
     public void initialize(Pane p) {
         this.p=p;
         ((HBox) p.lookup("#wcard1")).setSpacing(10);
+
+        // Initialize the text for winner
         winner=new Label();
         winner.setLayoutX(222);
         winner.setLayoutY(425);
@@ -32,9 +37,11 @@ class WinPane implements Screens{
 
     @Override
     public void updateCanvases() {
+        // Show the cards of the winner
+
         if(p.lookup("#table").isVisible()) {
-            DrawPane.getDrawPane().clearTable();
-            winner.setText(LanguageChange.getLanguage().getString("player")+Mahjong.getMJ().getNowPlayer()+" "+LanguageChange.getLanguage().getString("win"));
+            OtherPane.getOtherPane().clearTable();
+            winner.setText(LanguageChange.getLanguage().getString("player")+(Mahjong.getMJ().getNowPlayer()+1)+" "+LanguageChange.getLanguage().getString("win"));
             winner.setVisible(true);
             ArrayList<Integer> cards = Mahjong.getMJ().getPlayer(Mahjong.getMJ().getNowPlayer()).showCards();
             for (int i = 0; i < cards.size(); i++) {
@@ -53,6 +60,8 @@ class WinPane implements Screens{
         }
     }
     static CardPane updateCard(HBox h,int i,int value){
+        // Draw the cards
+
         Pane pane =new Pane();
         pane.setPrefSize(70,98);
         h.getChildren().add(pane);

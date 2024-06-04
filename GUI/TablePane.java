@@ -8,7 +8,12 @@ import javafx.scene.text.Font;
 import language.LanguageChange;
 import model.Stack_of_cards;
 
+// Singleton pattern
+// Composite pattern
+// Null Object pattern
 class TablePane implements Screens{
+    // Show the public cards and the number of remained card
+
     private static TablePane tablePane=new TablePane();
     private PlayerCardPane[] players = new PlayerCardPane[4];
     Label l;
@@ -22,9 +27,13 @@ class TablePane implements Screens{
     @Override
     public void initialize(Pane p) {
         p =(Pane)p.lookup("#table");
+
+        // Initialize the parts for each player
         for(int i=0;i<4;i++){
             players[i] = new PlayerCardPane((Pane) p.lookup("#player"+i),90*i);
         }
+
+        // Initialize the number of remained card
         l=new Label();
         l.setFont(new Font(20));
         l.setTextFill(Color.WHITE);

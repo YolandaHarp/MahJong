@@ -7,19 +7,26 @@ import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 
- class ChoicePane implements Screens{
+// Singleton pattern
+// Null Object pattern
+class ChoicePane implements Screens{
+    // Offer different choices when one player action can get different result
+
     HBox h;
     private static ChoicePane choicePane = new ChoicePane();
     int choice;
-    volatile boolean doneChoose;
+    volatile boolean doneChoose; // Whether the player have made the choice
     private ChoicePane(){
     }
+
     protected static ChoicePane getChoicePane(){
         return choicePane;
     }
 
     @Override
     public void initialize(Pane p) {
+        // Design the popup style
+
         this.h =(HBox) p.lookup("#table").lookup("#choices");
         h.setPadding(new Insets(15));
         h.setSpacing(10);
@@ -30,7 +37,10 @@ import java.util.ArrayList;
     public void updateCanvases() {
     }
 
-    public void updateChoices(boolean b) {
+    // Facde pattern
+    protected void updateChoices(boolean b) {
+        // "b" determines two situations that require the player to make further choices
+
         doneChoose = false;
         h.getChildren().clear();
         if(b){
@@ -40,7 +50,10 @@ import java.util.ArrayList;
         }
         h.setVisible(true);
     }
-    void updateChowChoices(ArrayList<Integer[]> choices){
+
+    private void updateChowChoices(ArrayList<Integer[]> choices){
+        // Situation for Chow. Each situation include two cards
+
         for(int i=0;i<choices.size(); i ++){
             HBox hbox =new HBox();
             for(int j:choices.get(i)){
@@ -49,12 +62,18 @@ import java.util.ArrayList;
             h.getChildren().add(hbox);
         }
     }
-    void updateSingleChoices(ArrayList<Integer> cards){
+
+    private void updateSingleChoices(ArrayList<Integer> cards){
+        // Situation for Kong. Each situation include one cards
+
         for(int i=0;i<cards.size();i++){
             updateCard(h,i,cards.get(i));
         }
     }
-    void updateCard(HBox h,int i,int value){
+
+    private void updateCard(HBox h,int i,int value){
+        // Initialize every button
+
         CardPane card= WinPane.updateCard(h,i,value);
         card.getPane().setOnMouseClicked(event -> {
             choice=card.getNum();
@@ -62,8 +81,11 @@ import java.util.ArrayList;
             this.h.setVisible(false);
         });
     }
+
     public int getChoice(){
-        while (!doneChoose) {
+        // Get player's choice
+
+        while (!doneChoose&&!CardsController.getStop()) {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {

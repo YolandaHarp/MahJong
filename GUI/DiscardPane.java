@@ -7,7 +7,10 @@ import screen.cardsScreen.tileFactory;
 
 import java.util.ArrayList;
 
- class DiscardPane extends Panes implements Screens{
+// Singleton pattern
+class DiscardPane extends Panes implements Screens{
+    // Discard the front end of the pile
+
     private static DiscardPane discards=new DiscardPane(new Pane());
     private DiscardPane(Pane p){
         super(p);
@@ -20,13 +23,12 @@ import java.util.ArrayList;
     public void initialize(Pane p) {
         p=(Pane)p.lookup("#table").lookup("#discard");
         discards = new DiscardPane(p);
-
-
-
     }
 
     @Override
     public void updateCanvases() {
+        // Draw each card for a limit of 17 per row
+
         gc.clearRect(-300, -300, 1280,830);
         ArrayList<Integer> cards= Discard_Pile.getDiscard().show();
         for(int i=0;i<cards.size();i++){

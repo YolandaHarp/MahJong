@@ -5,7 +5,8 @@ import javafx.scene.control.Label;
 import language.LanguageChange;
 import model.Stack_of_cards;
 
-
+// Singleton pattern
+// Null Object pattern
 class PointJokerPane implements Screens{
     private static PointJokerPane pointJokerPane=new PointJokerPane();
     private PointJokerPane(){}
@@ -13,15 +14,16 @@ class PointJokerPane implements Screens{
     protected static PointJokerPane getPointJokerPane() {
         return pointJokerPane;
     }
+
     @Override
     public void initialize(Pane p) {
         this.p=p;
-        ((Label)p.lookup("#wait")).setText(LanguageChange.getLanguage().getString("wait"));
-
     }
 
     @Override
     public void updateCanvases() {
+        // Show the joker point card in this game
+
         p.lookup("#wait").setVisible(false);
         Pane pane=new Pane();
         pane.setPrefSize(70,98);
@@ -30,7 +32,5 @@ class PointJokerPane implements Screens{
         CardPane card=new CardPane(pane,0);
         card.update(Stack_of_cards.getStack().getPointJoker());
     }
-    public void setString(String s){
-        ((Label)p.lookup("#wait")).setText(s);
-    }
+
 }

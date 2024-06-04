@@ -68,6 +68,6 @@
             <Font name="MV Boli" size="60.0" />
          </font>
       </Label>
-      <Pane id="leave" layoutX="1170.0" layoutY="50.0" visible="false" />
+      <Pane id="leave" layoutX="1170.0" layoutY="700.0" />
    </children>
 </Pane>

@@ -5,7 +5,11 @@ import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 
+// Singleton pattern
+// Null Object pattern
 class HandCardsPane implements Screens{
+    // Show the cards in one player's hand
+
     private static HandCardsPane handCardsPane = new HandCardsPane();
     CardPane[] panes=new CardPane[14];
     boolean playCard;
@@ -14,10 +18,13 @@ class HandCardsPane implements Screens{
 
     public void initialize(Pane handcard){
         handcard=(Pane)handcard.lookup("#table").lookup("#handcard");
+
+        // Get buttons for 14 cards
         for(int i=0;i<14;i++){
             panes[i]= new CardPane( (Pane)handcard.lookup("#card"+i),i);
         }
 
+        // Achieve double click and highlight after selection
         for(CardPane p:panes) {
             p.getPane().setOnMouseClicked(event -> {
                 if(p.getPane().getTranslateY()!=-15) {
@@ -41,12 +48,19 @@ class HandCardsPane implements Screens{
     protected static HandCardsPane getHandCardsPane() {
         return handCardsPane;
     }
+
     @Override
     public void updateCanvases() {
     }
+
     public void updateCards(boolean hide){
+        // Get and update player's cards in hand
+        // "hide" decide whether to face up or face down
+
         int now=Mahjong.getMJ().getPlayerNum();
         ArrayList<Integer> cards= Mahjong.getMJ().getPlayer(now).showCards();
+
+        // Hide the needless button
         for (int i = 0; i < 14; i++) {
             if(i>=cards.size()){
                 panes[i].getPane().setVisible(false);
@@ -57,15 +71,16 @@ class HandCardsPane implements Screens{
             if(!hide) {
                 p.update(cards.get(i));
             }else{
-                p.update(100);//无意义的数
+                p.update(100);
             }
         }
     }
     public void setPlayCard(){
         playCard=true;
     }
+
     public int getChoice(){
-        while(playCard){
+        while(playCard&&!CardsController.getStop()){
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -74,6 +89,4 @@ class HandCardsPane implements Screens{
         }
         return cardChoice;
     }
-
-
 }
