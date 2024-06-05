@@ -10,12 +10,12 @@ import java.util.Deque;
 public class Transmit implements Serializable {
     private Stack_of_cards stack;
     private Mahjong MJ;
-    private ArrayList<Integer> Discards;
+    private Discard_Pile Discards;
     private int playerNum;
     public Transmit(){
         stack= Stack_of_cards.getStack();
         MJ=Mahjong.getMJ();
-        Discards=Discard_Pile.getDiscard().show();
+        Discards=Discard_Pile.getDiscard();
     }
     public Stack_of_cards getStack() {
         return stack;
@@ -23,7 +23,7 @@ public class Transmit implements Serializable {
     public Mahjong getMJ(){
         return MJ;
     }
-    public ArrayList<Integer> getDiscards() {
+    public Discard_Pile getDiscards() {
         return Discards;
     }
 
