@@ -1,6 +1,8 @@
 
 @startuml
-skinparam dpi 600
+left to right direction
+skinparam dpi 700
+skinparam linetype polyline
 package model{
 class Cards_in_hand {
   -ArrayList<Integer> cards
@@ -19,7 +21,7 @@ class Stack_of_cards {
   -Deque<Integer> stack
   +Stack_of_cards()
   +int pick()
-  +int pickFromBottom()
+  +int getJoker()
 }
 class PutAwayCards {
   -ArrayList<ArrayList<Integer>> putAwayCard
@@ -30,9 +32,11 @@ class Discard_Pile {
   -ArrayList<Integer> cards
   +void add(int n)
   +ArrayList<Integer> show()
+  +int getLast()
+  +void remove()
 }
 }
-package methods{
+package actions{
 interface Find_Action {
   +findCards(): void
   +checkCard(n: int): void
@@ -55,6 +59,10 @@ class Check_Win {
   -cards: Cards_in_hand
   +Check_Win(cards: Cards_in_hand): void
 }
+class Check_Other_Win{
+    +checkSevenPairs(jokerInHandOrigin: int): boolean
+    +checkOneOfAKind(cardCountOrigin: int[],jokerInHandOrigin int[])
+}
 class Check_Pong {
   -ArrayList<Integer> availableCards
   -Cards_in_hand cards
@@ -70,11 +78,6 @@ class Check_ConcealedKong {
   +Check_ConcealedKong(cards: Cards_in_hand)
 }
 class Actions {
-  - Check_Chow chowCards
-  - Check_Pong pongCards
-  - Check_Win winCards
-  - Check_ConcealedKong cKongCards
-  - Check_ExposedKong eKongCards
   - Find_Action[] actions
   + Actions(Cards_in_hand c)
   + void findCardsAction()
@@ -82,31 +85,81 @@ class Actions {
   + void checkCardAction_draw(int n)
 }
 }
-package gameEngine{
-}
-package gameListener{
-class mouseListener{
-}
-}
 package game{
-class mahjong{
+class Mahjong{
   -Cards_in_hand[] players
   - Stack_of_cards stack
   +  void mainGame()
 }
+class Transmit{
+-Stack_of_cards stack
+-Mahjong MJ
+-Discard_Pile discards
+int playernum
+}
+}
+package net{
+class Client{
+boolean receiveContinue
++void startClient(String serverHostname, int port)
++void sendMessage
++void endMessage
++void stopClient
+
+}
+class EchoServer2c{
+-boolean serverContinue
+-ArrayList<ObjectOutputStream> clientSockets
++void startServer(int port)
++void broadcastMessage(Object message,ObjectOutputStream o)
++void closeServer
+}
+class GetIP{
++String ip()
+}
+}
+package GUI{
+package Game{}
+class CardsController{
++void initialize()
++void updateScreen(int i)
++void updateGame(boolean hide)
++void updateChoices(boolean b)
++int playCard()
++int getChoice()
+}
+}
+package language{
+class LanguageChange{}
+}
+package MainScreen{
+package StartScreen{}
+
+abstract class StartGame{
++void startGame()
++abstract void mode()
+}
+class ClientGame{
++void mode()
+}
+class HostGame{
++void mode()
+}
+class LocalGame{
++void mode()
+}
 }
 package screen{
-class gameScreen extends JPanel{
-  -mahjong ma
-  -ArrayList<Integer[]> places
-  -cardScreen
-}
-class mainScreen extends JPanel{
-}
-class settingScreen extends JPanel{
-}
-class cardScreen extends JPanel{
+package cardsScreen{
+class cardScreen extends JavaFX{
   +void drawMJn(Graphics g, int x, int y, double a)
+}
+}
+class OtherScreen{
+}
+}
+package application{
+class MainApp{
 }
 }
 Find_Action <|.. Check_Chow
@@ -116,6 +169,7 @@ Find_Action <|.. Check_ConcealedKong
 Find_Action <|.. Check_ExposedKong
 Check_ExposedKong --|> Check_Pong
 Check_ConcealedKong --|> Check_ExposedKong
+Check_Other_Win <--> Check_Win
 Actions -->Check_Chow
 Actions -->Check_Pong
 Actions -->Check_Win
@@ -125,12 +179,19 @@ Cards_in_hand --> PutAwayCards
 Cards_in_hand --> Discard_Pile
 Cards_in_hand <--> Actions
 Cards_in_hand ..> Stack_of_cards
-Cards_in_hand <--> mahjong
-mahjong -->Stack_of_cards
-mouseListener --> gameEngine
-gameEngine --> mahjong
-gameEngine --> screen
-gameScreen --> mahjong
-gameScreen --> cardScreen
+game <--> net
+game <--> screen
+game <--> GUI
+game <--> MainScreen
+game <--> model
+game --> application
+Transmit-->Client
+Transmit-->EchoServer2c
+GetIP-->EchoServer2c
+StartGame-->LocalGame
+StartGame-->ClientGame
+StartGame-->HostGame
+language-->GUI
+language-->MainScreen
 @enduml
 ```
