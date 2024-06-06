@@ -5,6 +5,7 @@ import javafx.scene.layout.Pane;
 import language.LanguageChange;
 
 class LanguageChanger {
+    // Offer button to change the language
     protected LanguageChanger(Pane p){
         ((Label)p.lookup("#language").lookup("#name")).setText(LanguageChange.getLanguage().getString("language"));
         p.lookup("#language").lookup("#left").setOnMouseClicked(event->{

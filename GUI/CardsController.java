@@ -15,6 +15,7 @@ import screen.OtherScreen;
 // Singleton pattern
 // Composite pattern
 // Facade pattern
+// Proxy pattern
 public class CardsController {
     // Show the hole screen
 
@@ -54,7 +55,7 @@ public class CardsController {
         });
     }
 
-    // Chain of Responsibility pattern ?
+    // Proxy pattern
     public static void updateGame(boolean hide) {
         // Update game screen
 

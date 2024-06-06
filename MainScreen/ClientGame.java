@@ -10,9 +10,12 @@ import net.Client;
 import java.io.IOException;
 import java.util.Optional;
 
+// Decorator pattern
 class ClientGame extends StartGame{
     @Override
     void mode() {
+        // Offer pop-up window to input the IP address
+
         Platform.runLater(() -> {
         Dialog dialog = new Dialog();
         TextField textField = new TextField();
@@ -25,6 +28,8 @@ class ClientGame extends StartGame{
         dialog.getDialogPane().setContent(textField);
         dialog.setTitle("IP");
         Optional<String> result = dialog.showAndWait();
+
+        // Start client
         result.ifPresent(ip -> {
             try {
                 Client.getClient().startClient(ip, 10008);

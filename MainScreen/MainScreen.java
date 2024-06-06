@@ -10,6 +10,8 @@ import static application.MainApp.primaryStage;
 
 public class MainScreen {
     public void startMainScreen()  {
+        // Show the main screen
+
         Platform.runLater(() -> {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("StartScreen.fxml"));
             Parent root = null;
@@ -20,9 +22,6 @@ public class MainScreen {
             }
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
-            primaryStage.setTitle("MAHJONG");
-            primaryStage.setResizable(false);
-            primaryStage.setOnCloseRequest(event -> System.exit(0));
             primaryStage.show();
         });
     }

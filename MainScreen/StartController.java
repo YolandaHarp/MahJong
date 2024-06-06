@@ -23,6 +23,7 @@ public class StartController {
     private Pane mainScreen;
     @FXML
     private Pane lines;
+
     public void initialize(){
         drawLines();
         for(int n=0;n<3;n++){
@@ -33,6 +34,8 @@ public class StartController {
         initializeInfoButton();
         new LanguageChanger(mainScreen);
     }
+
+    // Decoration the table
     private void drawLines(){
         Canvas canvas = new Canvas(1280, 830);
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -48,6 +51,8 @@ public class StartController {
         }
     }
     private void initializeGameButton(int n) {
+        // Initialize three button about game model
+
         Pane p=(Pane) mainScreen.lookup("#but"+n);
         Label l= (Label) p.lookup("#l");
         CardPane c=new CardPane((Pane) p.lookup("#card"),n);
@@ -70,6 +75,8 @@ public class StartController {
         });
     }
     private void initializeExitButton() {
+        // Initialize exit button
+
         mainScreen.lookup("#leave").setOnMouseClicked(event->{
             System.exit(0);
         });
@@ -79,6 +86,9 @@ public class StartController {
         OtherScreen.exitButton(gc,25,25,1);
     }
     private void initializeInfoButton(){
+        // Initialize button for information
+        // Show a pop-up window to show the information
+
         mainScreen.lookup("#info").setOnMouseClicked(event->{
             Platform.runLater(() -> {
                 Dialog dialog = new Dialog();
@@ -98,6 +108,8 @@ public class StartController {
     }
 
     void startGameMode(int mode) {
+        // Three different game model
+
         if(mode==0){
             new LocalGame().startGame();
         }else if(mode==1){

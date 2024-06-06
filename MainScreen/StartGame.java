@@ -13,7 +13,7 @@ abstract class StartGame {
         new Thread(() -> {
             try {
                 // Load the Main2 class
-                Parent root = FXMLLoader.load(getClass().getResource("/GUI/New.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/GUI/Game.fxml"));
 
                 // Ensure the UI update is run on the JavaFX Application Thread
                 Platform.runLater(() -> {

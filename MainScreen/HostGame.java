@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import static GUI.CardsController.setString;
 
+// Decorator pattern
 public class HostGame extends StartGame{
     static int players = 0;
     @Override
@@ -16,7 +17,11 @@ public class HostGame extends StartGame{
         players = 0;
         String ip= GetIP.ip();
         setString(ip);
+        // Start the server
+
         EchoServer2c.getServer().startServer(10008);
+
+        // Waiting for three player join in
         while(players!=3&&EchoServer2c.getServer().getServerContinue()){
             try {
                 Thread.sleep(100);
@@ -24,6 +29,8 @@ public class HostGame extends StartGame{
                 throw new RuntimeException(e);
             }
         }
+
+        // Create client, join into the server and initialize the game
         if(EchoServer2c.getServer().getServerContinue()) {
             try {
                 Client.getClient().startClient(ip, 10008);
