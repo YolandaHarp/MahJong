@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 
 import static screen.cardsScreen.CardScreen.*;
 
-public class MJ0 implements Drawable {
+class MJ0 implements Drawable {
 
     @Override
     public void draw(GraphicsContext g, double x, double y, double a) {

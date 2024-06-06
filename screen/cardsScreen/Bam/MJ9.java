@@ -5,7 +5,7 @@ import screen.cardsScreen.Drawable;
 
 import static screen.cardsScreen.CardScreen.*;
 
-public class MJ9 implements Drawable {
+class MJ9 implements Drawable {
     @Override
     public void draw(GraphicsContext g, double x, double y, double a) {
         int[] x_coords = new int[]{-20, -8, -20, -8, -13, -8, -6, -8, 0, 0, 0, 8, 6, 8, 8, 0, -4, 4, 16, 4, -4, 0, -8, -20, -8, -8, -13, -10, 8, 9, 20, 9, 14, 8, 14, 9, 8, -8};

@@ -9,7 +9,7 @@ import static screen.cardsScreen.CardScreen.drawPg;
 import static screen.cardsScreen.CardScreen.white;
 import static screen.cardsScreen.Wan.WanScreen.drawWan;
 
-public class MJ21 implements Drawable {
+class MJ21 implements Drawable {
     @Override
     public void draw(GraphicsContext g, double x, double y, double a) {
         int[] x_coords = new int[]{-20,-19,-8,0,8,14,17,20,18,14,9,8,5,-7,-10,-13,-20};

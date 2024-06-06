@@ -8,7 +8,7 @@ import javafx.scene.paint.Color;
 import static screen.cardsScreen.CardScreen.green;
 import static screen.cardsScreen.Dot.DotScreen.drawDot;
 
-public class MJ3 implements Drawable {
+class MJ3 implements Drawable {
     @Override
     public void draw(GraphicsContext g, double x, double y, double a) {
         drawDot(g, x, y, 473, 466, 20, a, green, 5);

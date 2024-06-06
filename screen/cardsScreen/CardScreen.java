@@ -13,6 +13,8 @@ public class CardScreen {
     public static CardScreen getCard(){
         return card;
     }
+
+    // An easy way to draw polygon
     public static void drawPg(GraphicsContext g, int[] x_coords, int[] y_coords, double x, double y, double a, Color color1, Color color2, float f) {
         double oldLineWidth = g.getLineWidth();
         g.setLineWidth(f * a);
@@ -29,6 +31,7 @@ public class CardScreen {
         g.setLineWidth(oldLineWidth);
     }
 
+    // An easy way to draw circles
     public static void drawO(GraphicsContext g, double x, double y, int i, int j, int h, double a, Color color1, Color color2, float f) {
         double oldLineWidth = g.getLineWidth();
         g.setLineWidth(f * a);
@@ -38,20 +41,8 @@ public class CardScreen {
         g.strokeOval( (x - (500 - i) * a), (y - (500 - j) * a), (h * a), (h * a));
         g.setLineWidth(oldLineWidth);
     }
-    void drawDown(GraphicsContext g, int x, int y, double a) {
-        int[] x_coords = new int[]{-13, -9, -13, -13, -9, 9, 13, 13, 9, 13, 13, 9, -9, -13, -13};
-        int[] y_coords = new int[]{-40, -44, -48, -40, -44, -44, -48, -40, -44, -40, 20, 24, 24, 20, -40};
-        drawPg(g, x_coords, y_coords, x, y, a, blue, white, 1.0f);
 
-
-    }
-
-    void drawDownRight(GraphicsContext g, int x, int y, double a) {
-        drawDown(g, x, y, a);
-
-    }
-
-    void drawCardFlank(GraphicsContext g, int x, int y, double a) {
+    void drawCardFlank(GraphicsContext g, double x, double y, double a) {
         int[] x_coords = new int[]{30, 34, 34, 30, -30, -34, -34, -30};
         int[] y_coords = new int[]{48, 44, -44, -48, -48, -44, 44, 48};
         drawPg(g, x_coords, y_coords, x, y, a, blue, Color.BLACK, 2.0f);
@@ -66,38 +57,18 @@ public class CardScreen {
         drawPg(g, x_coords, y_coords, x, y, a, white, white, 1.0f);
     }
 
-    public void drawCardFront(GraphicsContext g, int x, int y, double a) {
+    public void drawCardFront(GraphicsContext g, double x, double y, double a) {
         int[] x_coords = new int[]{30, 34, 34, 30, -30, -34, -34, -30};
         int[] y_coords = new int[]{48, 44, -44, -48, -48, -44, 44, 48};
         drawPg(g, x_coords, y_coords, x, y, a, white, Color.BLACK, 2.0f);
     }
-    public void drawCardFrontHun(GraphicsContext g, int x, int y, double a) {
+    public void drawCardFrontHun(GraphicsContext g, double x, double y, double a) {
         int[] x_coords = new int[]{-18, -34, -34, -30};
         int[] y_coords = new int[]{-48, -32, -44, -48};
         drawPg(g, x_coords, y_coords, x, y, a, red, Color.BLACK, 1.0f);
     }
 
-    void drawCardStand(GraphicsContext g, int x, int y, double a) {
-        drawCardFlank(g, x, (int) (y - 16 * a), a);
-        drawCardFront(g, x, y, a);
-    }
-
-    void drawCardReverseStand(GraphicsContext g, int x, int y, double a) {
-        drawCardFlank(g, x, (int) (y - 16 * a), a);
-        drawCardBack(g, x, y, a);
-    }
-
-    void drawCardLaid(GraphicsContext g, int x, int y, double a) {
-        drawCardFlank(g, x, (int) (y + 16 * a), a);
-        drawCardFront(g, x, y, a);
-    }
-
-    void drawCardReverseLaid(GraphicsContext g, int x, int y, double a) {
-        drawCardFlank(g, x, (int) (y + 16 * a), a);
-        drawCardBack(g, x, y, a);
-    }
-
-    public void drawCardBack(GraphicsContext g, int x, int y, double a) {
+    public void drawCardBack(GraphicsContext g, double x, double y, double a) {
         drawCardFlank(g,x,y,a);
 
         int[] x_coords2 = new int[]{-15, -22, -12, -22, -8, -6, 4, 12, 20, 26, 24, 34, 27, 34, 22, 19, 6, 2, 0, -30, -6, -32, -12, -32, -17, -30, -15};

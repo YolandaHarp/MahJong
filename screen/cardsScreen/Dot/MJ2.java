@@ -9,7 +9,7 @@ import static screen.cardsScreen.CardScreen.green;
 import static screen.cardsScreen.CardScreen.red;
 import static screen.cardsScreen.Dot.DotScreen.drawDot;
 
-public class MJ2 implements Drawable {
+class MJ2 implements Drawable {
     @Override
     public void draw(GraphicsContext g, double x, double y, double a) {
         drawDot(g, x, y, 488, 491, 22, a, red, 6);

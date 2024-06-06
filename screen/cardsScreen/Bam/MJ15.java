@@ -7,7 +7,7 @@ import static screen.cardsScreen.Bam.BamScreen.drawBam;
 import static screen.cardsScreen.CardScreen.green;
 import static screen.cardsScreen.CardScreen.red;
 
-public class MJ15 implements Drawable {
+class MJ15 implements Drawable {
     @Override
     public void draw(GraphicsContext g, double x, double y, double a) {
         int[] xList=new int[]{-17,0,17};

@@ -6,7 +6,7 @@ import screen.cardsScreen.Drawable;
 import static screen.cardsScreen.CardScreen.*;
 import static screen.cardsScreen.CardScreen.green;
 
-public class MJ16 implements Drawable {
+class MJ16 implements Drawable {
     @Override
     public void draw(GraphicsContext g, double x, double y, double a) {
         new MJ12().draw(g,x,y,a);

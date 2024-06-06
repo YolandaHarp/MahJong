@@ -6,7 +6,7 @@ import screen.cardsScreen.Drawable;
 import static screen.cardsScreen.Bam.BamScreen.drawBam;
 import static screen.cardsScreen.CardScreen.green;
 
-public class MJ10 implements Drawable {
+class MJ10 implements Drawable {
     @Override
     public void draw(GraphicsContext g, double x, double y, double a) {
         drawBam(g,x,y,a,green);

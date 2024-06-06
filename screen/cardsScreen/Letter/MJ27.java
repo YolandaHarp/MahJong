@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 
 import static screen.cardsScreen.CardScreen.*;
 
-public class MJ27 implements Drawable {
+class MJ27 implements Drawable {
     @Override
     public void draw(GraphicsContext g, double x, double y, double a) {
         int[] x_coords2 = new int[]{-21,-17,-3,12,18,21,18,13,-12,-18,-20,-21};

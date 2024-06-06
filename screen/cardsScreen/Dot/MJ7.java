@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 
 import static screen.cardsScreen.Dot.DotScreen.draw4Dot;
 
-public class MJ7 implements Drawable {
+class MJ7 implements Drawable {
     @Override
     public void draw(GraphicsContext g, double x, double y, double a) {
         draw4Dot(g,x, (y+5*a),a,Color.BLACK);

@@ -5,14 +5,17 @@ import screen.cardsScreen.ChooseDrawable;
 import screen.cardsScreen.Drawable;
 
 import static screen.cardsScreen.CardScreen.*;
+
+// Singleton pattern
+// Composite pattern
 public class WanScreen implements ChooseDrawable {
     private static WanScreen wan=new WanScreen();
-    Drawable[] wans= new Drawable[]{new MJ18(),new MJ19(),new MJ20(),new MJ21(),new MJ22(),new MJ23(),new MJ24(),new MJ25(),new MJ26()};
+    private Drawable[] wans= new Drawable[]{new MJ18(),new MJ19(),new MJ20(),new MJ21(),new MJ22(),new MJ23(),new MJ24(),new MJ25(),new MJ26()};
     private WanScreen(){}
     public static WanScreen getWan(){
         return wan;
     }
-    static void drawWan(GraphicsContext g, double x, double y, double a){
+    protected static void drawWan(GraphicsContext g, double x, double y, double a){
         int[] x_coords2 = new int[]{-16, -12};
         int[] y_coords2 = new int[]{23, 36};
         drawPg(g, x_coords2, y_coords2, x, y, a, white, red, 4.0f);

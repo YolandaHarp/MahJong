@@ -8,7 +8,7 @@ import static screen.cardsScreen.CardScreen.red;
 import static screen.cardsScreen.Dot.DotScreen.draw4Dot;
 import static screen.cardsScreen.Dot.DotScreen.drawDot;
 
-public class MJ6 implements Drawable {
+class MJ6 implements Drawable {
     @Override
     public void draw(GraphicsContext g, double x, double y, double a) {
         draw4Dot(g,x,y,a,red);

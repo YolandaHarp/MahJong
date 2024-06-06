@@ -9,7 +9,7 @@ import static screen.cardsScreen.CardScreen.drawPg;
 import static screen.cardsScreen.CardScreen.white;
 import static screen.cardsScreen.Wan.WanScreen.drawWan;
 
-public class MJ25 implements Drawable {
+class MJ25 implements Drawable {
     @Override
     public void draw(GraphicsContext g, double x, double y, double a) {
         drawWan(g,x,y,a);
