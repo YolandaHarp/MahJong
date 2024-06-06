@@ -26,6 +26,8 @@ public class LanguageChange {
         }
     }
     public String getString(String key){
+        // Read text from .properties files
+
         Properties properties = new Properties();
         try {
             properties.load(getClass().getResource("language_" + languageCode + ".properties").openStream());
