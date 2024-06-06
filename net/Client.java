@@ -24,13 +24,18 @@ public class Client {
     }
 
     public void startClient(String serverHostname, int port) throws IOException {
+        // Start the client
+
         receiveContinue=true;
         try {
             echoSocket = new Socket(serverHostname, port);
+
+            // In order to properly close the client
             echoSocket.setSoTimeout(1000);
             out = new ObjectOutputStream(echoSocket.getOutputStream());
             in = new ObjectInputStream(echoSocket.getInputStream());
-            // 创建一个新线程用于接收服务器的消息
+
+            // Create a new thread to receive messages from the server
             new Thread(() -> {
                 try {
                     receiveMessage();
@@ -40,9 +45,13 @@ public class Client {
             }).start();
 
         } catch (UnknownHostException e) {
+
+            // Input wrong IP address
             System.err.println("Don't know about host: " + serverHostname);
             throw new IOException("Unknown host: " + serverHostname, e);
         } catch (IOException e) {
+
+            // Wrong input
             System.err.println("Couldn't get I/O for the connection to: " + serverHostname);
             throw e;
         }
@@ -56,26 +65,35 @@ public class Client {
                 } catch (SocketTimeoutException e) {
                     continue;
                 }
+
+                // Other player disconnected
                 if (serverMessage == null) {
                     throw new IOException();
                 }
+
+                // Update all data
                 Transmit transmite = (Transmit) serverMessage;
                 Mahjong.getMJ().setMJ(transmite.getMJ());
                 Mahjong.getMJ().setPlayerNum(transmite.getPlayerNum());
                 Discard_Pile.getDiscard().setDiscard(transmite.getDiscards());
                 Stack_of_cards.getStack().setStack(transmite.getStack());
                 updateGame(false);
+
+                // Start turn
                 Mahjong.getMJ().startOnlineGame();
             }
             stopClient();
         } catch (IOException | ClassNotFoundException e) {
+
+            // Error is displayed and closed
             showNetError();
             stopClient();
-            e.printStackTrace();
         }
     }
 
     public void sendMessage() throws IOException {
+        // Send all data
+
         if (out != null) {
             Transmit t=new Transmit();
             out.reset();
@@ -86,6 +104,9 @@ public class Client {
         }
     }
     public void endMessage() throws IOException {
+        // End link (after game over)
+
+        sendMessage();
         out.reset();
         out.writeObject(null);
         out.flush();
@@ -93,10 +114,15 @@ public class Client {
         stopClient();
     }
 
-    private void stopClient() throws IOException {
+    public void stopClient() {
+        // End link (after error)
+
+        try{
         if (out != null) out.close();
         if (in != null) in.close();
         if (echoSocket != null) echoSocket.close();
+    }catch(IOException e){
+        }
     }
 
     /*public static void main(String[] args) throws IOException {

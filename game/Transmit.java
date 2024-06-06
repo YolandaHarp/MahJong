@@ -7,7 +7,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Deque;
 
+// Proxy pattern
+// Observer pattern
+// Transfer object pattern
 public class Transmit implements Serializable {
+    // Use to share all the data to the client
+
     private Stack_of_cards stack;
     private Mahjong MJ;
     private Discard_Pile Discards;

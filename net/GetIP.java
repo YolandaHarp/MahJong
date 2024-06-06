@@ -6,6 +6,8 @@ import java.util.Enumeration;
 
 public class GetIP {
     public static String ip() {
+        // Return Ip address for this computer
+
         try {
             Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
             while (networkInterfaces.hasMoreElements()) {
